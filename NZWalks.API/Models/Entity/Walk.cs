@@ -1,4 +1,7 @@
-﻿namespace NZWalks.API.Models.Entity
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
+namespace NZWalks.API.Models.Entity
 {
     public class Walk
     {
@@ -12,4 +15,18 @@
         public Region Region { get; set; }
         public WalkDifficulty WalkDifficulty { get; set; }
     }
+
+    public class WalkEntityConfiguration : IEntityTypeConfiguration<Walk>
+    {
+        public void Configure(EntityTypeBuilder<Walk> builder)
+        {
+            builder.Property(x => x.Name).HasColumnType("nvarchar(50)");
+            
+            builder.HasOne(x => x.Region)
+                .WithMany(x => x.Walks)
+                .HasForeignKey(x => x.RegionId);
+
+        }
+    }
+
 }

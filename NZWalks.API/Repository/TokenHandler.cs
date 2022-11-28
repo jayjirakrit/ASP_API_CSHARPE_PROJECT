@@ -24,9 +24,9 @@ namespace NZWalks.API.Repository
             claims.Add(new Claim(ClaimTypes.Email, userRequest.Email));
 
             // Loop into roles of users
-            userRequest.Roles.ForEach((role) =>
+            userRequest.User_Role.ForEach((role) =>
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(ClaimTypes.Role, role.Role.RoleName));
             });
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
